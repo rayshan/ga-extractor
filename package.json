@@ -1,0 +1,50 @@
+{
+  "name": "ga-extractor",
+  "version": "0.1.0",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "description": "Extract your Google Analytics data.",
+  "keywords": [
+    "google",
+    "analytics",
+    "google analytics",
+    "data",
+    "metrics",
+    "stats",
+    "etl"
+  ],
+  "main": "lib",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "gulp test",
+    "test": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rayshan/ga-extractor"
+  },
+  "author": {
+    "name": "Ray Shan",
+    "email": "ray@shan.io",
+    "url": "http://shan.io"
+  },
+  "homepage": "https://github.com/rayshan/ga-extractor",
+  "dependencies": {
+    "bluebird": "~2.3",
+    "googleapis": "~1.0",
+    "limiter": "~1.0.5"
+  },
+  "devDependencies": {
+    "chai": "~1.9",
+    "chai-as-promised": "~4.1",
+    "coffee-script": "~1.8",
+    "gulp": "~3.8",
+    "gulp-coffee": "^2.2.0",
+    "gulp-mocha": "~1.1",
+    "mocha": "~2.0"
+  },
+  "license": "MIT"
+}
