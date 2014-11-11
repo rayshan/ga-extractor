@@ -27,6 +27,8 @@ npm install --save ga-extractor
 Sign up for a GA [Service Account](https://developers.google.com/accounts/docs/OAuth2ServiceAccount), download your `.pem` private key.
 
 ```js
+var gaExtractor = require('ga-extractor');
+
 var options = {
   profileId: "xxxxxxxx", // optional, define once here or define a different one in every queryObj
   clientEmail: "x@developer.gserviceaccount.com",
@@ -34,7 +36,9 @@ var options = {
   keyContent: "Bag Attributes...", // need either keyPath or keyContent
   impersonatedUser: "steve@apple.com" // optional
 };
+
 var gaExtractor = new GaExtractor(options);
+
 var queryObj = {
   'start-date': '31daysAgo',
   'end-date': 'yesterday',
@@ -42,6 +46,8 @@ var queryObj = {
   'dimensions': 'ga:country'
   // no need to define 'max-results', always extracts all data
 };
+
+// no need to call .auth, extraction only happen after successful auth
 gaExtractor.extract(queryObj)
   .then(function (data) {
     // do something with data returned, e.g. transform & load into database

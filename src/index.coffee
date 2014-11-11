@@ -3,7 +3,7 @@ p = require 'path'
 Promise = require 'bluebird'
 RateLimiter = require('limiter').RateLimiter
 # promisify for better control flow
-gaRateLimiter = Promise.promisifyAll new RateLimiter 1, 1000
+gaRateLimiter = Promise.promisifyAll new RateLimiter 1, 500
 
 # ==========
 
@@ -46,7 +46,7 @@ class GaExtractor
 
   extract: (queryObj) ->
     # limit # of concurrent requests to not hammer GA server
-    @auth().bind(@).then gaRateLimiter.removeTokensAsync 1
+    @auth().bind(@).delay(500).then gaRateLimiter.removeTokensAsync 1
       .then ->
         # .get(0) - for some reason data[1] is whole object returned by request again
         @ga.getAsync(queryObj).get(0).bind(@).then (data) ->
