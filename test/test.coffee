@@ -6,7 +6,7 @@ should = require('chai').use(chaiAsPromised).should()
 
 # custom
 
-GaExtractor = require '../lib'
+GaExtractor = require '../src'
 options = require './fixtures/options.json'
 #options.keyPath = p.join __dirname, "fixtures", options.keyFileName
 
@@ -64,6 +64,8 @@ describe '.auth instance method', ->
     gaExtractorBad.auth().should.be.rejectedWith Error
 
 describe '.extract instance method', ->
+  @.timeout 3000
+
   it 'should extract data with right num of columns per queryObj', ->
     columnCount = options.queryObj.metrics.split(',').length +
         options.queryObj.dimensions.split(',').length

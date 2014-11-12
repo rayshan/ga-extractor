@@ -2,7 +2,9 @@
 p = require 'path'
 Promise = require 'bluebird'
 RateLimiter = require('limiter').RateLimiter
+
 # promisify for better control flow
+readFileAsync = Promise.promisify(require("fs").readFile)
 gaRateLimiter = Promise.promisifyAll new RateLimiter 1, 500
 
 # ==========
@@ -23,26 +25,27 @@ class GaExtractor
         'ids': ('ga:' + @config.profileId) if @config.profileId
     }).data.ga
 
-    # define auth obj; needed for initial auth & extractions
-    @authClient = new @gApi.auth.JWT(
-      @config.clientEmail,
-      @config.keyPath, # key as .pem file
-      @config.keyContent,
-      "https://www.googleapis.com/auth/analytics.readonly", # scope uri
-      @impersonatedUser
-    )
+    # async load key content or crypto.js may throw up
+    @init = -> readFileAsync(@config.keyPath, 'utf-8').bind(@).then (keyContent) ->
+      # define auth obj; needed for initial auth & extractions
+      new @gApi.auth.JWT(
+        @config.clientEmail,
+        null, # not using keyPath to key as .pem file b/c of async file read
+        if @config.keyContent then @config.keyContent else keyContent,
+        "https://www.googleapis.com/auth/analytics.readonly", # scope uri
+        @impersonatedUser
+      )
     return
 
   auth: -> new Promise (resolve, reject) =>
-    @authClient.authorize (err, token) ->
-      # returns expiry_date: 1406182540 (16 days) and refresh_token: 'jwt-placeholder'
-      if err
-        reject new Error "OAuth error; err = #{ err.error }"
-      else
-        resolve token
-      return
-    @gApi.options auth: @authClient
-    return
+    @init().bind(@).then (authClient) ->
+      authClient.authorize (err, token) =>
+        # returns expiry_date: 1406182540 (16 days) and refresh_token: 'jwt-placeholder'
+        if err
+          reject new Error "OAuth error; err = #{ err.message }"
+        else
+          @gApi.options auth: authClient
+          resolve token
 
   extract: (queryObj) ->
     # limit # of concurrent requests to not hammer GA server
