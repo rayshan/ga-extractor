@@ -19,7 +19,8 @@
     "lib"
   ],
   "scripts": {
-    "test": "gulp build"
+    "test": "gulp test",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",

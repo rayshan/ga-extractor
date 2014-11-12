@@ -13,6 +13,7 @@
 - Authorizes using OAuth 2.0 [Service Accounts](https://developers.google.com/accounts/docs/OAuth2ServiceAccount)
 - Promises
 - Will break large extractions into smaller queries based on GA's single query [limit](https://developers.google.com/analytics/devguides/reporting/core/v3/limits-quotas#core_reporting)
+- Well tested against live GA API server
 
 
 ## Install
