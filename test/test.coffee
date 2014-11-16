@@ -64,7 +64,7 @@ describe '.auth instance method', ->
     gaExtractorBad.auth().should.be.rejectedWith Error
 
 describe '.extract instance method', ->
-  @.timeout 3000
+  @.timeout 4000
 
   it 'should extract data with right num of columns per queryObj', ->
     columnCount = options.queryObj.metrics.split(',').length +

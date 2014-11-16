@@ -2,12 +2,12 @@
 
 > Free your Google Analytics data
 
-`ga-extractor` bulk-extracts Google Analytics (GA) raw data using the [Core Reporting API](https://developers.google.com/analytics/devguides/reporting/core/v3/). Use `ga-extractor` as part of your [ETL](http://en.wikipedia.org/wiki/Extract,_transform,_load) process.
+`ga-extractor` bulk-extracts Google Analytics (GA) raw data using the [Core Reporting API](https://developers.google.com/analytics/devguides/reporting/core/v3/). Use it as part of your [ETL](http://en.wikipedia.org/wiki/Extract,_transform,_load) process.
 
 `ga-extractor` was spun off from [`bower-server-etl`](https://github.com/rayshan/bower-server-etl), the ETL service that feeds [Bower](http://bower.io/)'s registry.
 
 
-## Features & Roadmap
+## Features
 
 - Compatible with latest GA Core Reporting API `v3`
 - Authorizes using OAuth 2.0 [Service Accounts](https://developers.google.com/accounts/docs/OAuth2ServiceAccount)
@@ -60,7 +60,8 @@ To construct your `queryObj`, see [here](https://developers.google.com/analytics
 
 To try your query without writing any code, use the [Query Explorer Tool](https://ga-dev-tools.appspot.com/explorer/).
 
-Example of data returned by GA API:
+Example of original data returned by GA API:
+
 ```json
 {
   "kind": "analytics#gaData",
@@ -99,6 +100,14 @@ Example of data returned by GA API:
 }
 ```
 
+`.extract` returns only what's in the `rows` object above:
+```json
+[
+  ["United States", "5471"],
+  ["United Kingdom", "1084"],
+  ["France", "801"]
+]
+```
 
 ## Contribution
 

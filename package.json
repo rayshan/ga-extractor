@@ -4,7 +4,7 @@
   "engines": {
     "node": "0.10.x"
   },
-  "description": "Extract your Google Analytics data.",
+  "description": "Free your Google Analytics data.",
   "keywords": [
     "google",
     "analytics",
@@ -38,7 +38,7 @@
     "limiter": "~1.0.5"
   },
   "devDependencies": {
-    "chai": "~1.9",
+    "chai": "^1.x",
     "chai-as-promised": "~4.1",
     "coffee-script": "~1.8",
     "gulp": "~3.8",
