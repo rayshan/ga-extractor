@@ -1,12 +1,13 @@
 # vendor
 p = require 'path'
+fs = require "fs"
 
 chaiAsPromised = require "chai-as-promised"
 should = require('chai').use(chaiAsPromised).should()
 
 # custom
 
-GaExtractor = require '../src'
+GaExtractor = require '../lib'
 options = require './fixtures/options.json'
 #options.keyPath = p.join __dirname, "fixtures", options.keyFileName
 
@@ -44,11 +45,11 @@ describe 'GaExtractor', ->
       keyPath: options.keyPath
     }).should.not.throw Error
 
-  it 'should instantiate with key as string', ->
+  it 'should instantiate with keyContent as string read from .pem file', ->
     (-> new GaExtractor {
       profileId: options.profileId
       clientEmail: options.clientEmail
-      keyContent: options.keyContent
+      keyContent: fs.readFileSync options.keyPath, ['utf-8']
     }).should.not.throw Error
 
 describe '.auth instance method', ->
