@@ -1,6 +1,5 @@
 node_modules
 
 # below contain secrets
-*.p12
 *.pem
 options.json
