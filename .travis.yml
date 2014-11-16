@@ -1,11 +1,9 @@
 language: node_js
-
 node_js:
 - '0.10'
-
-# travis encrypt-file --add puts files in repo root; manually moved to test/fixtures
 before_install:
 - openssl aes-256-cbc -K $encrypted_189a490f5d2e_key -iv $encrypted_189a490f5d2e_iv
   -in test/fixtures/options.json.enc -out test/fixtures/options.json -d
 - openssl aes-256-cbc -K $encrypted_189a490f5d2e_key -iv $encrypted_189a490f5d2e_iv
-  -in test/fixtures/gaServiceAcctKeyDev.pem.enc -out test/fixtures/gaServiceAcctKeyDev.pem -d
+  -in test/fixtures/gaServiceAcctKeyDev.pem.enc -out test/fixtures/gaServiceAcctKeyDev.pem
+  -d

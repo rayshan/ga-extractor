@@ -1,4 +1,4 @@
-# ga-extractor
+# ga-extractor [![Build Status](https://travis-ci.org/rayshan/ga-extractor.svg?branch=master)](https://travis-ci.org/rayshan/ga-extractor)
 
 > Free your Google Analytics data
 
