@@ -35,7 +35,9 @@ var options = {
   clientEmail: "x@developer.gserviceaccount.com",
   keyPath: "test/fixtures/xxx.pem",
   keyContent: "Bag Attributes...", // need either keyPath or keyContent
-  impersonatedUser: "steve@apple.com" // optional
+  // below are optional
+  impersonatedUser: "steve@apple.com"
+  proxy: "http://proxy.example.com"
 };
 
 var gaExtractor = new GaExtractor(options);

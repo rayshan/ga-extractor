@@ -52,6 +52,14 @@ describe 'GaExtractor', ->
       keyContent: fs.readFileSync options.keyPath, ['utf-8']
     }).should.not.throw Error
 
+  it 'should instantiate with proxy', ->
+    (-> new GaExtractor {
+      profileId: options.profileId
+      clientEmail: options.clientEmail
+      keyContent: fs.readFileSync options.keyPath, ['utf-8']
+      proxy: 'http://proxy.example.com'
+    }).should.not.throw Error
+
 describe '.auth instance method', ->
   it 'should auth & return a promise resolved with a token', ->
     gaExtractor.auth().should.eventually.have.property 'access_token'

@@ -21,6 +21,7 @@ class GaExtractor
       params:
         "max-results": gaMaxRowsPerRequest # always extract everything API will return
         'ids': ('ga:' + @config.profileId) if @config.profileId
+      proxy: @config.proxy
     }).data.ga
 
     # define auth obj; needed for initial auth & extractions
