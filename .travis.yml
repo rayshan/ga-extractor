@@ -2,8 +2,16 @@ language: node_js
 node_js:
 - '0.10'
 before_install:
-- openssl aes-256-cbc -K $encrypted_189a490f5d2e_key -iv $encrypted_189a490f5d2e_iv
-  -in test/fixtures/gaServiceAcctKeyDev.pem.enc -out test/fixtures/gaServiceAcctKeyDev.pem
+- openssl aes-256-cbc
+  -k $encrypt_file_password
+  -in test/fixtures/gaServiceAcctKeyDev.pem.enc
+  -out test/fixtures/gaServiceAcctKeyDev.pem
   -d
-- openssl aes-256-cbc -K $encrypted_189a490f5d2e_key -iv $encrypted_189a490f5d2e_iv
-  -in test/fixtures/options.json.enc -out test/fixtures/options.json -d
+- openssl aes-256-cbc
+  -k $encrypt_file_password
+  -in test/fixtures/options.json.enc
+  -out test/fixtures/options.json
+  -d
+env:
+  global:
+    secure: upTofFgIDUhBf1fMMyUyc7A1Oiuq7lMmF+IyeUzP3fA7r6DqtOiWwlZJ0I5bi52SsANU70T3YZZjaEZBm11qPsQmF4/EpAG/OXrdoUnWoZbynO3kgTx9fn+ocarugFihA2BUzIevvKkIPH7xIJuJQuy1Ve8RRFBDSx4heeg6p2E=
