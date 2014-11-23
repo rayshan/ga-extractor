@@ -4,8 +4,8 @@ node_js:
 before_install:
 - openssl aes-256-cbc
   -k $encrypt_file_password
-  -in test/fixtures/gaServiceAcctKeyDev.pem.enc
-  -out test/fixtures/gaServiceAcctKeyDev.pem
+  -in test/fixtures/gaServiceAcctKeyDev.p12.enc
+  -out test/fixtures/gaServiceAcctKeyDev.p12
   -d
 - openssl aes-256-cbc
   -k $encrypt_file_password

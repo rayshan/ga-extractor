@@ -38,14 +38,14 @@ describe 'GaExtractor', ->
       clientEmail: options.clientEmail
     }).should.throw Error
 
-  it 'should instantiate with a .pem key file', ->
+  it 'should instantiate with a .p12 key file', ->
     (-> new GaExtractor {
       profileId: options.profileId
       clientEmail: options.clientEmail
       keyPath: options.keyPath
     }).should.not.throw Error
 
-  it 'should instantiate with keyContent as string read from .pem file', ->
+  it 'should instantiate with keyContent as string read from .p12 file', ->
     (-> new GaExtractor {
       profileId: options.profileId
       clientEmail: options.clientEmail

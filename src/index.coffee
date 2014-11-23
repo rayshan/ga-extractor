@@ -3,7 +3,9 @@ p = require 'path'
 Promise = require 'bluebird'
 RateLimiter = require('limiter').RateLimiter
 # promisify for better control flow
+# limit # of concurrent requests to 1 in 1/2 sec to not hammer GA server
 gaRateLimiter = Promise.promisifyAll new RateLimiter 1, 500
+gp12 = Promise.promisify require 'google-p12-pem'
 
 # ==========
 
@@ -24,34 +26,38 @@ class GaExtractor
       proxy: @config.proxy
     }).data.ga
 
-    # define auth obj; needed for initial auth & extractions
-    @authClient = new @gApi.auth.JWT(
-      @config.clientEmail,
-      @config.keyPath, # key as .pem file
-      @config.keyContent,
-      "https://www.googleapis.com/auth/analytics.readonly", # scope uri
-      @impersonatedUser
-    )
     return
 
   auth: -> new Promise (resolve, reject) =>
-    @authClient.authorize (err, token) ->
-      # returns expiry_date: 1406182540 (16 days) and refresh_token: 'jwt-placeholder'
-      if err
-        reject new Error "OAuth error; err = #{ err.error }"
+    # convert .p12 key to .pem
+    _convertKey = new Promise (_resolve) =>
+      if @config.keyPath
+        _resolve gp12 @config.keyPath
       else
-        resolve token
-      return
-    @gApi.options auth: @authClient
-    return
+        _resolve null
+
+    _convertKey.then (keyContent) =>
+      _authClient = new @gApi.auth.JWT(
+        @config.clientEmail
+        null
+        keyContent
+        "https://www.googleapis.com/auth/analytics.readonly" # scope uri
+        @impersonatedUser
+      )
+
+      _authClient.authorize (err, token) =>
+        # returns .expiry_date in 1 hr
+        if err
+          reject new Error "OAuth error; err = #{ err.error }"
+        else
+          resolve token
+      @gApi.options auth: _authClient
 
   extract: (queryObj) ->
-    # limit # of concurrent requests to not hammer GA server
     @auth().delay 500
       .bind @
       .then gaRateLimiter.removeTokensAsync 1
-      # .get(0) - for some reason data[1] is whole object returned by request again
-      .then -> @ga.getAsync(queryObj).get 0
+      .then -> @ga.getAsync(queryObj).get 0 # [1] is whole object returned by request again
       .then (results) ->
         data = results.rows
         return data unless results.totalResults > gaMaxRowsPerRequest

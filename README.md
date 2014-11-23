@@ -25,23 +25,27 @@ npm install --save ga-extractor
 
 ## Usage
 
-Sign up for a GA [Service Account](https://developers.google.com/accounts/docs/OAuth2ServiceAccount), download your `.pem` private key.
+Sign up for a GA [Service Account](https://developers.google.com/accounts/docs/OAuth2ServiceAccount), download your `.p12` private key.
 
 ```js
 var gaExtractor = require('ga-extractor');
 
 var options = {
-  profileId: "xxxxxxxx", // optional, define once here or define a different one in every queryObj
   clientEmail: "x@developer.gserviceaccount.com",
-  keyPath: "test/fixtures/xxx.pem",
-  keyContent: "Bag Attributes...", // need either keyPath or keyContent
+  // need either keyPath or keyContent
+  keyPath: "test/fixtures/xxx.p12",
+  keyContent: "Bag Attributes...",
   // below are optional
+  profileId: "xxxxxxxx", // define once here or define a different one in every queryObj
   impersonatedUser: "steve@apple.com"
   proxy: "http://proxy.example.com"
 };
 
 var gaExtractor = new GaExtractor(options);
 
+// To build your query, see
+// https://developers.google.com/analytics/devguides/reporting/core/v3/reference#q_summary
+// and https://developers.google.com/analytics/devguides/reporting/core/v3/reference
 var queryObj = {
   'start-date': '31daysAgo',
   'end-date': 'yesterday',
@@ -50,15 +54,18 @@ var queryObj = {
   // no need to define 'max-results', always extracts all data
 };
 
-// no need to call .auth, extraction only happen after successful auth
 gaExtractor.extract(queryObj)
   .then(function (data) {
     // do something with data returned, e.g. transform & load into database
-    })
-  .catch(function (err) {console.error(err)})
+    data = [
+      ["United States", "5471"],
+      ["United Kingdom", "1084"],
+      ["France", "801"]
+      // ...
+    ];
+  })
+  .catch(function (err) {console.error(err)});
 ```
-
-To construct your `queryObj`, see [here](https://developers.google.com/analytics/devguides/reporting/core/v3/reference#q_summary) and [here](https://developers.google.com/analytics/devguides/reporting/core/v3/reference).
 
 To try your query without writing any code, use the [Query Explorer Tool](https://ga-dev-tools.appspot.com/explorer/).
 
@@ -102,14 +109,8 @@ Example of original data returned by GA API:
 }
 ```
 
-`.extract` returns only what's in the `rows` object above:
-```json
-[
-  ["United States", "5471"],
-  ["United Kingdom", "1084"],
-  ["France", "801"]
-]
-```
+`.extract` returns only the content of `rows` object above.
+
 
 ## Contribution
 
@@ -117,7 +118,7 @@ Install dependencies: `npm install`
 
 Ensure tests pass: `npm test`
 
-TODO: all tests are integration tests and go against live GA API server. Docs on fixtures needed for testing coming soon. In the mean time you can submit a PR and owner will manually test.
+TODO: all tests are integration tests and execute against live GA API server. Docs on fixtures needed for testing coming soon. In the mean time you can submit a PR and owner will manually test.
 
 Build .js for distribution: `npm build`
 
