@@ -38,19 +38,21 @@ describe 'GaExtractor', ->
       clientEmail: options.clientEmail
     }).should.throw Error
 
-  it 'should instantiate with a .p12 key file', ->
-    (-> new GaExtractor {
+  it 'should instantiate & auth with a .p12 key file', ->
+    gaExtractorWithKeyPath = new GaExtractor {
       profileId: options.profileId
       clientEmail: options.clientEmail
       keyPath: options.keyPath
-    }).should.not.throw Error
+    }
+    gaExtractorWithKeyPath.auth().should.eventually.have.property 'access_token'
 
-  it 'should instantiate with keyContent as string read from .p12 file', ->
-    (-> new GaExtractor {
+  it 'should instantiate & auth with keyContent as string read from .p12 file', ->
+    gaExtractorWithKeyContent = new GaExtractor {
       profileId: options.profileId
       clientEmail: options.clientEmail
-      keyContent: fs.readFileSync options.keyPath, ['utf-8']
-    }).should.not.throw Error
+      keyContent: fs.readFileSync options.keyContent, ['utf-8']
+    }
+    gaExtractorWithKeyContent.auth().should.eventually.have.property 'access_token'
 
   it 'should instantiate with proxy', ->
     (-> new GaExtractor {

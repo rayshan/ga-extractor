@@ -34,7 +34,7 @@ class GaExtractor
       if @config.keyPath
         _resolve gp12 @config.keyPath
       else
-        _resolve null
+        _resolve @config.keyContent
 
     _convertKey.then (keyContent) =>
       _authClient = new @gApi.auth.JWT(
