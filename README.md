@@ -64,7 +64,7 @@ gaExtractor.extract(queryObj)
       // ...
     ];
   })
-  .catch(function (err) {console.error(err)});
+  .catch(console.error);
 ```
 
 To try your query without writing any code, use the [Query Explorer Tool](https://ga-dev-tools.appspot.com/explorer/).

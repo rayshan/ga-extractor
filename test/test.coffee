@@ -77,12 +77,13 @@ describe '.auth instance method', ->
 describe '.extract instance method', ->
   @.timeout 4000
 
-  it 'should extract data with right num of columns per queryObj', ->
+  it 'should extract data with right num of columns', (done) ->
     columnCount = options.queryObj.metrics.split(',').length +
         options.queryObj.dimensions.split(',').length
-    gaExtractor.extract options.queryObj
-      .should.eventually.have.deep.property '[0]' # 1st row of data
-      .with.length columnCount
+
+    gaExtractor.extract(options.queryObj).then (data) ->
+      data[0].should.have.length columnCount
+      done();
 
   it 'should resolve with error if error during extraction', ->
     gaExtractor.extract({}).should.be.rejectedWith Error

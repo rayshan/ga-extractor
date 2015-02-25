@@ -6,6 +6,7 @@ RateLimiter = require('limiter').RateLimiter
 # limit # of concurrent requests to 1 in 1/2 sec to not hammer GA server
 gaRateLimiter = Promise.promisifyAll new RateLimiter 1, 500
 gp12 = Promise.promisify require 'google-p12-pem'
+gApi = require "googleapis"
 
 # ==========
 
@@ -17,8 +18,7 @@ class GaExtractor
     if !@config.keyPath and !@config.keyContent
       throw new Error "Must provide either path to Service Account .pem key file, or key's content as string."
 
-    @gApi = require "googleapis"
-    @ga = Promise.promisifyAll @gApi.analytics({
+    @ga = Promise.promisifyAll gApi.analytics({
       version: 'v3'
       params:
         "max-results": gaMaxRowsPerRequest # always extract everything API will return
@@ -37,7 +37,7 @@ class GaExtractor
         _resolve @config.keyContent
 
     _convertKey.then (keyContent) =>
-      _authClient = new @gApi.auth.JWT(
+      _authClient = new gApi.auth.JWT(
         @config.clientEmail
         null
         keyContent
@@ -51,7 +51,7 @@ class GaExtractor
           reject new Error "OAuth error; err = #{ err.error }"
         else
           resolve token
-      @gApi.options auth: _authClient
+      gApi.options auth: _authClient
 
   extract: (queryObj) ->
     @auth().delay 500
@@ -75,7 +75,6 @@ class GaExtractor
         Promise.all(runPromises).then -> data
       .catch (err) ->
         throw new Error "Extraction error, err = #{ err.message }"
-        return
 
 # ==========
 
