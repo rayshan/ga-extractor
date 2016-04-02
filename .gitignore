@@ -1,5 +1,5 @@
 node_modules
 
 # below contain secrets
-*.p12
-options.json
+text/fixtures/*
+!text/fixtures/README.md

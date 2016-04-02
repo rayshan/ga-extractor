@@ -1,6 +1,6 @@
 # ga-extractor [![Build Status](https://travis-ci.org/rayshan/ga-extractor.svg?branch=master)](https://travis-ci.org/rayshan/ga-extractor)
 
-> Free your Google Analytics data
+> Free your Google Analytics data.
 
 `ga-extractor` bulk-extracts Google Analytics (GA) raw data using the [Core Reporting API](https://developers.google.com/analytics/devguides/reporting/core/v3/). Use it as part of your [ETL](http://en.wikipedia.org/wiki/Extract,_transform,_load) process.
 
