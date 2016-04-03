@@ -1,8 +1,8 @@
 {
   "name": "ga-extractor",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "engines": {
-    "node": ">=0.10"
+    "node": ">=4"
   },
   "description": "Free your Google Analytics data.",
   "keywords": [
@@ -33,19 +33,17 @@
   },
   "homepage": "https://github.com/rayshan/ga-extractor",
   "dependencies": {
-    "bluebird": "~2.9",
-    "google-p12-pem": "0.0.1",
-    "googleapis": "~1.1",
-    "limiter": "~1.0.5"
+    "bluebird": "~3.3",
+    "google-p12-pem": "0.1.0",
+    "googleapis": "~4.0",
+    "limiter": "~1.1"
   },
   "devDependencies": {
-    "chai": "^2.x",
-    "chai-as-promised": "^4.x",
-    "coffee-script": "~1.9",
-    "gulp": "~3.8",
-    "gulp-coffee": "^2.2.0",
+    "chai": "^3.x",
+    "chai-as-promised": "^5.x",
+    "gulp": "^3.9",
     "gulp-mocha": "^2.x",
-    "mocha": "~2.1"
+    "mocha": "^2.1"
   },
   "license": "MIT"
 }
