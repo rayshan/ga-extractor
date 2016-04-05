@@ -1,5 +1,5 @@
 node_modules
 
 # below contain secrets
-text/fixtures/*
-!text/fixtures/README.md
+test/fixtures/*
+!test/fixtures/README.md
